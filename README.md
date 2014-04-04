@@ -3,8 +3,14 @@ Drupal-8-vm-fork
 
 Virtual Machine for drupal 8 development (VirtualBox 4.3)
 
-Based on Drupal vm project https://drupal.org/project/vm added .gitattributes and aiming to develop further.
-Originally generated at https://puphpet.com/ 
+Based on Drupal vm project https://drupal.org/project/vm
+Originally generated at https://puphpet.com/
+
+Aiming to add my own variations, so far:
+
+* Added .gitattributes to ensure shell file line endings remain LF
+* Raised the VM memory from 512 to 1024MB
+
 
 1.- Clone this repo
 ```bash
@@ -38,15 +44,3 @@ $ drush si standard --db-url=mysql://drupal:drupal@localhost/drupal --site-name=
 * drush for drupal 8
 * xdebug
 * vim
-
-#### Database Credentials
-* Name: drupal
-* User: drupal
-* Pass: drupal
-
-#### Minimum requirements
-* Git
-* VirtualBox 4.3.x
-* Vagrant 1.4.x
-=======
-
