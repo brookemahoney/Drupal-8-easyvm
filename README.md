@@ -10,6 +10,7 @@ Aiming to add my own variations, so far:
 
 * Added .gitattributes to ensure shell file line endings remain LF
 * Raised the VM memory from 512 to 1024MB
+* Fixed the Puppet version updated to 3.4.3 otherwise the Puphpet base install fails with later versions
 
 
 1.- Clone this repo
