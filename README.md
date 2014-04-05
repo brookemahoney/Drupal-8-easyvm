@@ -14,7 +14,7 @@ Aiming to add my own variations, so far:
 
 1.- Clone this repo
 ```bash
-$ git clone https://github.com/hechoendrupal/drupal8.dev.git
+$ git clone https://github.com/chris-hall-hu/Drupal-8-vm-fork.git
 $ cd drupal8.dev
 $ vagrant up
 ```
