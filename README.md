@@ -1,4 +1,4 @@
-Drupal-8-vm-fork
+Drupal-8-easyvm
 ================
 
 Virtual Machine for drupal 8 development (VirtualBox 4.3). This is **NOT** a secure configuration and should **NOT** be used for a production machine.
