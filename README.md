@@ -22,6 +22,7 @@ Aiming to add some variations, so far:
 Still to do:
 * Add a Samba share that can be used by Windows host machines.
 * Flatten and remove the configuration for puphpet for other guest OSes
+* Add another empty vhost under drupal8-2.dev for those who want to install by hand, will also allow running two Drupals if needed
 * etc. etc.
 
 **Note:** The current configuration does not use an NFS mount for the shared www directory on Linux and OSX which will probably make things rather slow. There is a file in the project directory called NFS_block.txt if this is removed or renamed then the share should be set up using NFS.
