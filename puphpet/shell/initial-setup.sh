@@ -37,8 +37,5 @@ if [[ "${OS}" == 'ubuntu' && ("${CODENAME}" == 'lucid' || "${CODENAME}" == 'prec
     apt-get install -y libcurl3 libcurl4-gnutls-dev >/dev/null
     echo 'Finished installing basic curl packages (Ubuntu only)'
 
-    echo 'Installing NFS'
-    apt-get intall -y nfs-kernel-server
-
     touch /.puphpet-stuff/ubuntu-required-libraries
 fi
