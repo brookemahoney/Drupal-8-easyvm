@@ -42,7 +42,7 @@ $ git clone https://github.com/chris-hall-hu/Drupal-8-easyvm.git drupal8.dev
 **_OR_**  
 download a zip file from [https://github.com/chris-hall-hu/Drupal-8-easyvm/archive/master.zip](https://github.com/chris-hall-hu/Drupal-8-easyvm/archive/master.zip) and unpack into a drupal8.dev directory.
 
-2.- Start you VM with Vagrant
+2.- Start your VM with Vagrant
 
 Enter your drupal8.dev directory on the command line and type:
 
