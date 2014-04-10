@@ -60,7 +60,7 @@ apache:
         - rewrite
         - vhost_alias
     vhosts:
-        9turTSiM8aoL:
+        drupal8dev:
             servername: drupal8.dev
             serveraliases:
                 - www.drupal8.dev
@@ -68,9 +68,14 @@ apache:
             port: '80'
             override:
                 - All
+        wildcard:
+            ip: '127.0.0.1'
+            docroot: /var/www/drupal8.dev
+            override:
+                - All
     user: vagrant
     group: vagrant
-    default_vhost: true
+    default_vhost: false
     mpm_module: prefork
     mod_pagespeed: 0
     mod_spdy: 0

@@ -1,0 +1,3 @@
+The presence of this file stops Vagrant attempting to mount the shared www/ folder over NFS.
+Remove or move this file to allow NFS.
+NOTE: this will have no affect on Windows as www/ is not shared.

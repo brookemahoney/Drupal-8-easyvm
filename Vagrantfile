@@ -1,4 +1,11 @@
 Vagrant.configure("2") do |config|
+
+  # Attempt to detect whether we are on a Windows system.
+  winos = (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+  
+  # Check to see if we are going to be attempting NFS
+  usenfs = !File.exist?('./NFS_block.txt')
+ 
   config.vm.box = "ubuntu-precise12042-x64-vbox43"
   config.vm.box_url = "http://box.puphpet.com/ubuntu-precise12042-x64-vbox43.box"
 
@@ -6,7 +13,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
 
-  config.vm.synced_folder "./www", "/var/www", id: "webroot", :nfs => false
+  if !winos
+    config.vm.synced_folder "./www", "/var/www", id: "webroot", :nfs => usenfs
+  end
 
   config.vm.usable_port_range = (2200..2250)
   config.vm.provider :virtualbox do |virtualbox|
@@ -29,9 +38,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :shell, :path => "puphpet/shell/execute-files.sh"
 
-
-
-
   config.ssh.username = "vagrant"
 
   config.ssh.shell = "bash -l"
@@ -41,4 +47,6 @@ Vagrant.configure("2") do |config|
   config.ssh.forward_x11 = false
   config.vagrant.host = :detect
 end
+
+
 
