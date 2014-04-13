@@ -208,6 +208,35 @@ define add_dotdeb ($release){
   }
 }
 
+## Begin Samba manifest
+# TODO move configuration into yaml and see if can turn this off for 
+class { '::samba::server':
+  workgroup            => 'Drupal',
+  server_string        => 'Drupal Dev VM',
+  netbios_name         => 'F01',
+  interfaces           => [ 'lo', 'eth0' ],
+  hosts_allow          => [ '127.', '192.168.' ],
+  local_master         => 'yes',
+  map_to_guest         => 'Bad User',
+  os_level             => '50',
+  preferred_master     => 'yes',
+  extra_global_options => [
+    'printing = BSD',
+    'printcap name = /dev/null',
+  ],
+  shares => {
+    'WWW' => [
+      'comment = Webroot',
+      'path = /var/www',
+      'browseable = yes',
+      'writable = yes',
+      'guest ok = yes',
+      'available = yes',
+    ],
+  }
+}
+
+
 ## Begin Apache manifest
 
 if $yaml_values == undef {

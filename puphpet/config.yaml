@@ -14,7 +14,7 @@ vagrantfile-local:
             virtualbox:
                 modifyvm:
                     natdnshostresolver1: on
-                    memory: '1028'
+                    memory: '512'
                 setextradata:
                     VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root: 1
         provision:
@@ -60,17 +60,17 @@ apache:
         - rewrite
         - vhost_alias
     vhosts:
-        drupal8dev:
-            servername: drupal8.dev
-            serveraliases:
-                - www.drupal8.dev
-            docroot: /var/www/drupal8.dev
-            port: '80'
+        local:
+            ip: '127.0.0.1'
+            docroot: /var/www/drupal8.local
             override:
                 - All
-        wildcard:
-            ip: '127.0.0.1'
-            docroot: /var/www/drupal8.dev
+        drupal8local:
+            servername: drupal8.local
+            serveraliases:
+                - www.drupal8.local
+            docroot: /var/www/drupal8.local
+            port: '80'
             override:
                 - All
     user: vagrant

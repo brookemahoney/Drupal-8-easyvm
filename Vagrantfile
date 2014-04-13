@@ -1,3 +1,11 @@
+require 'yaml'
+
+dir = File.dirname(File.expand_path(__FILE__))
+
+configValues = YAML.load_file("#{dir}/puphpet/config.yaml")
+data = configValues['vagrantfile-local']
+
+
 Vagrant.configure("2") do |config|
 
   # Attempt to detect whether we are on a Windows system.
@@ -6,10 +14,16 @@ Vagrant.configure("2") do |config|
   # Check to see if we are going to be attempting NFS
   usenfs = !File.exist?('./NFS_block.txt')
  
-  config.vm.box = "ubuntu-precise12042-x64-vbox43"
-  config.vm.box_url = "http://box.puphpet.com/ubuntu-precise12042-x64-vbox43.box"
+  config.vm.box = "#{data['vm']['box']}"
+  config.vm.box_url = "#{data['vm']['box_url']}"
 
-  config.vm.network "private_network", ip: "192.168.9.10"
+  if data['vm']['hostname'].to_s != ''
+    config.vm.hostname = "#{data['vm']['hostname']}"
+  end
+  
+  if data['vm']['network']['private_network'].to_s != ''
+    config.vm.network "private_network", ip: "#{data['vm']['network']['private_network']}"
+  end
 
   config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
 
@@ -18,12 +32,17 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.usable_port_range = (2200..2250)
-  config.vm.provider :virtualbox do |virtualbox|
-    virtualbox.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-    virtualbox.customize ["modifyvm", :id, "--memory", "1028"]
-    virtualbox.customize ["setextradata", :id, "--VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+  if !data['vm']['provider']['virtualbox'].empty?
+      config.vm.provider :virtualbox do |virtualbox|
+        data['vm']['provider']['virtualbox']['modifyvm'].each do |key, value|
+          if key == "natdnshostresolver1"
+            value = value ? "on" : "off"
+          end
+          virtualbox.customize ["modifyvm", :id, "--#{key}", "#{value}"]
+        end
+      end
   end
-
+  
   config.vm.provision :shell, :path => "puphpet/shell/initial-setup.sh"
   config.vm.provision :shell, :path => "puphpet/shell/update-puppet.sh"
   config.vm.provision :shell, :path => "puphpet/shell/librarian-puppet-vagrant.sh"
