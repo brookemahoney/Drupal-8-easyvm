@@ -5,7 +5,7 @@ Virtual Machine for Drupal 8 development (VirtualBox 4.3). This is **NOT** a sec
 
 After ```vagrant up``` and waiting (there is lot to download and install) you should have a fresh Drupal 8 virtual machine with Drupal 8 installed and ready to go. You can access it straight away on the url ```127.0.0.1:8080``` in your web browser and/or by adding an entry to your hosts file ```192.168.9.10 drupal8.local``` and accessing.
 
-The code under /var/www on the guest machine can be accessed directly on the host machine via the www directory within the vagrant directory, except for Windows hosts where the best option is to use the Samba share provided (should be available on 
+The code under /var/www on the guest machine can be accessed directly on the host machine via the www directory within the vagrant directory, except for Windows hosts where the best option is to use the Samba share provided (should be available on ```\\Precise64\www```)
 
 This project was based on Drupal vm project at https://drupal.org/project/vm
 Originally generated from a configuration from https://puphpet.com/
