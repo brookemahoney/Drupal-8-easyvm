@@ -19,10 +19,10 @@ Aiming to add some variations, so far:
 * Configured the default vhost to serve up Drupal on 127.0.0.1:8080
 * Removed sharing of the folder www for Windows host machines (terrible performance if left)
 * Added a text file that can removed and or moved to allow NFS sharing to be attempted by Vagrant for Linux and OSX host machines.
-* Added a Samba share for windows users to access the code.
+* Added a Samba share for Windows users to access the code on ```\\Precise64\www```.
 
 Still to do:
-* Flatten and remove the configuration for puphpet for other guest OSes
+* Flatten and remove the configuration for puphpet for other guest OSes (underway in the develop branch)
 * Add another empty vhost under drupal8-2.local for those who want to install by hand, will also allow running two Drupals if needed
 * etc. etc.
 
