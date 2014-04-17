@@ -3,8 +3,8 @@
 #TODO confirm this is used no-where else and then remove it.
 VAGRANT_CORE_FOLDER="/vagrant/puphpet"
 
-OS=$(/bin/bash "/vagrant/puphpet/shell/os-detect.sh" ID)
-CODENAME=$(/bin/bash "/vagrant/puphpet/shell/os-detect.sh" CODENAME)
+OS='ubuntu'
+CODENAME='precise'
 
 if [[ ! -d /.puphpet-stuff ]]; then
     mkdir /.puphpet-stuff

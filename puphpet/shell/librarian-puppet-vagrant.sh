@@ -2,8 +2,8 @@
 
 VAGRANT_CORE_FOLDER=$(cat "/.puphpet-stuff/vagrant-core-folder.txt")
 
-OS=$(/bin/bash "${VAGRANT_CORE_FOLDER}/shell/os-detect.sh" ID)
-CODENAME=$(/bin/bash "${VAGRANT_CORE_FOLDER}/shell/os-detect.sh" CODENAME)
+OS='ubuntu'
+CODENAME='precise'
 
 # Directory in which librarian-puppet should manage its modules directory
 PUPPET_DIR=/etc/puppet/
