@@ -209,21 +209,18 @@ define add_dotdeb ($release){
 }
 
 ## Begin Samba manifest
-# TODO move configuration into yaml and see if can turn this off for 
+# TODO move configuration into yaml and see if can turn this off for non Windows host machines.
 class { '::samba::server':
-  workgroup            => 'Drupal',
+  workgroup            => 'DRUPALDEV',
   server_string        => 'Drupal Dev VM',
   netbios_name         => 'F01',
   interfaces           => [ 'lo', 'eth0' ],
-  hosts_allow          => [ '127.', '192.168.' ],
+  security             => 'user',
+  guest_account        => 'vagrant',
   local_master         => 'yes',
   map_to_guest         => 'Bad User',
   os_level             => '50',
   preferred_master     => 'yes',
-  extra_global_options => [
-    'printing = BSD',
-    'printcap name = /dev/null',
-  ],
   shares => {
     'WWW' => [
       'comment = Webroot',
@@ -232,6 +229,7 @@ class { '::samba::server':
       'writable = yes',
       'guest ok = yes',
       'available = yes',
+      'create mask = 0644',
     ],
   }
 }
