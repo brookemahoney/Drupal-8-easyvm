@@ -5,7 +5,7 @@ Virtual Machine for Drupal 8 development (VirtualBox 4.3). This is **NOT** a sec
 
 After ```vagrant up``` and waiting (there is lot to download and install) you should have a fresh Drupal 8 virtual machine with Drupal 8 installed and ready to go. You can access it straight away on the url ```127.0.0.1:8080``` in your web browser and/or by adding an entry to your hosts file ```192.168.9.10 drupal8.local``` and accessing.
 
-The code under /var/www on the guest machine can be accessed directly on the host machine via the www directory within the vagrant directory, except for Windows hosts where the best option is to use the Samba share provided (should be available on ```\\Precise64\www```)
+The code under /var/www on the guest machine can be accessed directly on the host machine via the www directory within the vagrant directory, except for Windows hosts where the best option is to use the Samba share provided (should be available on ```\\Precise64\www``` or alternatively ```\\192.168.9.10\www``` if that does not work)
 
 This project was based on Drupal vm project at https://drupal.org/project/vm
 Originally generated from a configuration from https://puphpet.com/
@@ -19,10 +19,11 @@ Aiming to add some variations, so far:
 * Configured the default vhost to serve up Drupal on 127.0.0.1:8080
 * Removed sharing of the folder www for Windows host machines (terrible performance if left)
 * Added a text file that can removed and or moved to allow NFS sharing to be attempted by Vagrant for Linux and OSX host machines.
-* Added a Samba share for Windows users to access the code on ```\\Precise64\www```.
+* Added a Samba share for Windows users to access the code on ```\\Precise64\www``` or ```\\192.168.9.10\www```.
+* Removed the os-detect.sh script and fixed everything relying on it to Ubuntu
 
 Still to do:
-* Flatten and remove the configuration for puphpet for other guest OSes (underway in the develop branch)
+* Flatten and remove the configuration for puphpet for other guest OSes (partially done)
 * Add another empty vhost under drupal8-2.local for those who want to install by hand, will also allow running two Drupals if needed
 * etc. etc.
 
