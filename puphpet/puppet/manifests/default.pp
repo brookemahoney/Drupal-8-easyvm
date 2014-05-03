@@ -43,85 +43,15 @@ exec { 'dotfiles':
   require => User[$::ssh_username]
 }
 
-case $::osfamily {
-  # debian, ubuntu
-  'debian': {
-    class { 'apt': }
 
-    Class['::apt::update'] -> Package <|
-        title != 'python-software-properties'
-    and title != 'software-properties-common'
-    |>
+class { 'apt': }
 
-    ensure_packages( ['augeas-tools'] )
-  }
-  # redhat, centos
-  'redhat': {
-    class { 'yum': extrarepo => ['epel'] }
-
-    class { 'yum::repo::rpmforge': }
-    class { 'yum::repo::repoforgeextras': }
-
-    Class['::yum'] -> Yum::Managed_yumrepo <| |> -> Package <| |>
-
-    if defined(Package['git']) == false {
-      package { 'git':
-        ensure  => latest,
-        require => Class['yum::repo::repoforgeextras']
-      }
-    }
-
-    exec { 'bash_git':
-      cwd     => "/home/${::ssh_username}",
-      command => "curl https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh > /home/${::ssh_username}/.bash_git",
-      creates => "/home/${::ssh_username}/.bash_git"
-    }
-
-    exec { 'bash_git for root':
-      cwd     => '/root',
-      command => "cp /home/${::ssh_username}/.bash_git /root/.bash_git",
-      creates => '/root/.bash_git',
-      require => Exec['bash_git']
-    }
-
-    file_line { 'link ~/.bash_git':
-      ensure  => present,
-      line    => 'if [ -f ~/.bash_git ] ; then source ~/.bash_git; fi',
-      path    => "/home/${::ssh_username}/.bash_profile",
-      require => [
-        Exec['dotfiles'],
-        Exec['bash_git'],
-      ]
-    }
-
-    file_line { 'link ~/.bash_git for root':
-      ensure  => present,
-      line    => 'if [ -f ~/.bash_git ] ; then source ~/.bash_git; fi',
-      path    => '/root/.bashrc',
-      require => [
-        Exec['dotfiles'],
-        Exec['bash_git'],
-      ]
-    }
-
-    file_line { 'link ~/.bash_aliases':
-      ensure  => present,
-      line    => 'if [ -f ~/.bash_aliases ] ; then source ~/.bash_aliases; fi',
-      path    => "/home/${::ssh_username}/.bash_profile",
-      require => File_line['link ~/.bash_git']
-    }
-
-    file_line { 'link ~/.bash_aliases for root':
-      ensure  => present,
-      line    => 'if [ -f ~/.bash_aliases ] ; then source ~/.bash_aliases; fi',
-      path    => '/root/.bashrc',
-      require => File_line['link ~/.bash_git for root']
-    }
-
-    ensure_packages( ['augeas'] )
-  }
-}
-
+Class['::apt::update'] -> Package <|
+   title != 'python-software-properties'
+and title != 'software-properties-common'
+|>
+ensure_packages( ['augeas-tools'] )
+  
 if $php_values == undef {
   $php_values = hiera('php', false)
 }
@@ -175,18 +105,6 @@ case $::operatingsystem {
       }
       elsif $lsbdistcodename in ['lucid'] and $php_values['version'] == '55' {
         err('You have chosen to install PHP 5.5 on Ubuntu 10.04 Lucid. This will probably not work!')
-      }
-    }
-  }
-  'redhat', 'centos': {
-    if is_hash($php_values) {
-      if $php_values['version'] == '54' {
-        class { 'yum::repo::remi': }
-      }
-      # remi_php55 requires the remi repo as well
-      elsif $php_values['version'] == '55' {
-        class { 'yum::repo::remi': }
-        class { 'yum::repo::remi_php55': }
       }
     }
   }
@@ -273,19 +191,6 @@ class { 'apache':
   mpm_module    => $apache_values['mpm_module'],
   manage_user   => false,
   manage_group  => false
-}
-
-if $::osfamily == 'debian' {
-  case $apache_values['mpm_module'] {
-    'prefork': { ensure_packages( ['apache2-mpm-prefork'] ) }
-    'worker':  { ensure_packages( ['apache2-mpm-worker'] ) }
-    'event':   { ensure_packages( ['apache2-mpm-event'] ) }
-  }
-} elsif $::osfamily == 'redhat' and ! defined(Iptables::Allow['tcp/80']) {
-  iptables::allow { 'tcp/80':
-    port     => '80',
-    protocol => 'tcp'
-  }
 }
 
 if has_key($apache_values, 'mod_pagespeed') and $apache_values['mod_pagespeed'] == 1 {
