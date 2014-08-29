@@ -3,7 +3,7 @@
 apt-get -y install php-apc
 
 cd /var/www
-git clone --branch 8.x http://git.drupal.org/project/drupal.git drupal8.local
+git clone --branch 8.0.x http://git.drupal.org/project/drupal.git drupal8.local
 
 # Make everything owned by vagrant (which the webserver runs as) this is not a production environment.
 chown -R vagrant:vagrant drupal8.local
